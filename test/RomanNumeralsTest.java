@@ -1,4 +1,3 @@
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -78,18 +77,24 @@ public class RomanNumeralsTest {
         assertEquals("Should have returned 10", parseRomanNumeral(ROMAN_NUMERAL_TEN), 10);
     }
 
-    //TODO
-    @Ignore
     @Test
     public void shouldReturn4ForRomanNumeralIV() throws Exception {
         assertEquals("Should have returned 4", parseRomanNumeral(ROMAN_NUMERAL_FOUR), 4);
     }
 
-    //TODO
-    @Ignore
     @Test
     public void shouldReturn9ForRomanNumeralIX() throws Exception {
         assertEquals("Should have returned 9", parseRomanNumeral(ROMAN_NUMERAL_NINE), 9);
+    }
+
+    @Test
+    public void shouldReturn1993ForMCMXCIII() throws Exception {
+        assertEquals(parseRomanNumeral("MCMXCIII"), 1993);
+    }
+
+    @Test()
+    public void shouldReturnErrorWhenTwoOrMoreSmallerNumbersBeforeLargeOne() throws Exception {
+        assertEquals(parseRomanNumeral("IIV"), ERROR_CODE);
     }
 
     private int parseRomanNumeral(String romanNumeralString) {
@@ -102,16 +107,40 @@ public class RomanNumeralsTest {
         }
 
         int value = 0;
+        RomanNumeral lastValue = null;
 
         for (char numeral : romanNumeralString.toCharArray()) {
             RomanNumeral romanNumeral = RomanNumeral.valueOf(String.valueOf(numeral));
+            if (lastValue != null && lastValue.ordinal() < romanNumeral.ordinal()) {
+                value -= 2 * lastValue.getValue();
+            }
             value += romanNumeral.getValue();
+            lastValue = romanNumeral;
         }
 
         return value;
     }
 
     private boolean isInvalidRomanNumeral(String romanNumeralString) {
-        return romanNumeralString == null || A_SINGLE_SPACE.equals(romanNumeralString) || INVALID_INPUT.equals(romanNumeralString);
+        if (romanNumeralString == null || A_SINGLE_SPACE.equals(romanNumeralString)
+                || INVALID_INPUT.equals(romanNumeralString)) {
+            return true;
+        }
+
+        if (romanNumeralString.length() < 3) {
+            return false;
+        }
+
+        for (int i = 2; i < romanNumeralString.length(); i++) {
+            int first = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i - 2))).ordinal();
+            int second = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i - 1))).ordinal();
+            int thrid = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i))).ordinal();
+
+            if (first <= second && second < thrid) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
