@@ -29,7 +29,7 @@ public class RomanNumeralsTest {
 
     @Test
     public void shouldReturn0WhenEmptyStringIsParsedIn() throws Exception {
-        String romanNumeralString = RomanNumeralParser.EMPTY_STRING;
+        String romanNumeralString = RomanNumeralParser.ZERO_STRING;
         int actualValue = RomanNumeralParser.parseRomanNumeral(romanNumeralString);
         assertEquals("Did not return 0 for empty string", actualValue, RomanNumeralParser.DEFAULT_VALUE);
     }
@@ -68,7 +68,6 @@ public class RomanNumeralsTest {
     public void shouldReturn5ForRomanNumeralV() throws Exception {
         assertEquals("Should have returned 5", RomanNumeralParser.parseRomanNumeral(ROMAN_NUMERAL_FIVE), 5);
     }
-
 
     @Test
     public void shouldReturn10ForRomanNumeraX() throws Exception {
