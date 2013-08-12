@@ -1,22 +1,23 @@
+package dojo.code.london.romannumeral;
+
 import org.junit.Test;
 
+import static dojo.code.london.romannumeral.RomanNumeral.*;
 import static junit.framework.Assert.assertEquals;
-
 
 /**
  * @author Edward Yue Shung Wong
  */
-public class RomanNumeralsTest {
+public class RomanNumeralParserTest {
 
-    private static final String ROMAN_NUMERAL_ONE = "I";
-    private static final String ROMAN_NUMERAL_TWO = "II";
-    private static final String ROMAN_NUMERAL_THREE = "III";
-    private static final String ROMAN_NUMERAL_FOUR = "IV";
-    private static final String ROMAN_NUMERAL_FIVE = "V";
-    private static final String ROMAN_NUMERAL_NINE = "IX";
-    private static final String ROMAN_NUMERAL_TEN = "X";
+    private static final String ROMAN_NUMERAL_ONE = romanNumeralsAsString(I);
+    private static final String ROMAN_NUMERAL_TWO = romanNumeralsAsString(I, I);
+    private static final String ROMAN_NUMERAL_THREE = romanNumeralsAsString(I, I, I);
+    private static final String ROMAN_NUMERAL_FOUR = romanNumeralsAsString(I, V);
+    private static final String ROMAN_NUMERAL_FIVE = romanNumeralsAsString(V);
+    private static final String ROMAN_NUMERAL_NINE = romanNumeralsAsString(I, X);
+    private static final String ROMAN_NUMERAL_TEN = romanNumeralsAsString(X);
 
-    private static final int ERROR_CODE = -1;
     private static final String A_SINGLE_SPACE = " ";
     private static final String INVALID_INPUT = ".";
 
@@ -24,7 +25,7 @@ public class RomanNumeralsTest {
     public void shouldReturnMinusOneWhenANullValueIsPassedToTheFunction() {
         String romanNumeralString = null;
         int actualValue = RomanNumeralParser.parseRomanNumeral(romanNumeralString);
-        assertEquals("Did not return -1", actualValue, ERROR_CODE);
+        assertEquals("Did not return -1", actualValue, RomanNumeralParser.ERROR_CODE);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class RomanNumeralsTest {
     @Test
     public void should_Return_MinusOneForASpaceAsInput() {
         int actualValue = RomanNumeralParser.parseRomanNumeral(A_SINGLE_SPACE);
-        assertEquals("Did not return -1 for a string with a space", actualValue, ERROR_CODE);
+        assertEquals("Did not return -1 for a string with a space", actualValue, RomanNumeralParser.ERROR_CODE);
     }
 
     @Test
@@ -51,7 +52,7 @@ public class RomanNumeralsTest {
     @Test
     public void shouldReturnAnErrorCodeForInvalidInput() {
         int actualValue = RomanNumeralParser.parseRomanNumeral(INVALID_INPUT);
-        assertEquals("Should have returned an error code of -1", actualValue, ERROR_CODE);
+        assertEquals("Should have returned an error code of -1", actualValue, RomanNumeralParser.ERROR_CODE);
     }
 
     @Test
@@ -91,6 +92,6 @@ public class RomanNumeralsTest {
 
     @Test()
     public void shouldReturnErrorWhenTwoOrMoreSmallerNumbersBeforeLargeOne() throws Exception {
-        assertEquals(RomanNumeralParser.parseRomanNumeral("IIV"), ERROR_CODE);
+        assertEquals(RomanNumeralParser.parseRomanNumeral("IIV"), RomanNumeralParser.ERROR_CODE);
     }
 }
