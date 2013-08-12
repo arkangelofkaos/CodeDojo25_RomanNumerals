@@ -1,5 +1,7 @@
 package dojo.code.london.romannumeral;
 
+import static dojo.code.london.romannumeral.RomanNumeralStringValidator.isInvalidRomanNumeral;
+
 /**
  * @author Edward Yue Shung Wong
  */
@@ -40,21 +42,4 @@ public class RomanNumeralParser {
         return value;
     }
 
-    private static boolean isInvalidRomanNumeral(String romanNumeralString) {
-        if (romanNumeralString == null) {
-            return false;
-        }
-
-        for (int i = 2; i < romanNumeralString.length(); i++) {
-            int first = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i - 2))).ordinal();
-            int second = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i - 1))).ordinal();
-            int third = RomanNumeral.valueOf(String.valueOf(romanNumeralString.charAt(i))).ordinal();
-
-            if (first <= second && second < third) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }
