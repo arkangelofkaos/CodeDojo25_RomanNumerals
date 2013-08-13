@@ -31,7 +31,7 @@ public enum RomanNumeral {
     private static String romanNumeralStreamToString(Stream<RomanNumeral> romanNumeralStream) {
         return romanNumeralStream
                 .map(RomanNumeral::name)
-                .reduce((numeralOne, numeralTwo) -> numeralOne + numeralTwo)
+                .reduce(String::concat)
                 .get();
     }
 }
